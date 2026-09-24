@@ -1,0 +1,6 @@
+# Stockage local et clés
+drive/
+.env
+# Fichiers temporaires Python
+__pycache__/
+*.pyc
