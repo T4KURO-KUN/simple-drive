@@ -7,6 +7,115 @@
     <title>#simple_drive</title>
 </head>
 <body>
-    <h1>Bienvenue sur Simple Drive</h1>
+
+    <div class="header-bar">
+        <div class="left-info">
+            storage : {{ storage }}<br>
+            battery : {{ battery }}<br>
+            <form action="{{ url_for('import_files') }}" method="post" enctype="multipart/form-data">
+                <input id="importFile" name="files" type="file" multiple onchange="this.form.submit()">
+                <input name="subpath" type="hidden" value="{{ current_subpath }}">
+                <label class="import-link" for="importFile">import</label>
+            </form>
+        </div>
+        <div class="center-title">
+            <h1>#simple_drive</h1>
+        </div>
+        <div class="right-logout">
+            <a href="{{ url_for('logout') }}">logout []</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="scroll-area">
+            <ul>
+                {% if current_subpath %}
+                    <li>
+                        <a href="{% if parent_path %}{{ url_for('main', subpath=parent_path) }}{% else %}{{ url_for('main') }}{% endif %}">
+                            .. (Back)
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for item in items %}
+                    <li>
+                        {% if item.is_dir %}
+                            <a href="{{ url_for('main', subpath=item.path) }}">
+                                {{ item.name }}/
+                            </a>
+                        {% else %}
+                            <a class="file-link" href="#" data-url="{{ url_for('download_file', filename=item.path) }}" data-name="{{ item.name }}">
+                                {{ item.name }}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="fileModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-top">
+                <span id="modalName">file</span>
+                <button class="modal-close" onclick="closeModal()">X</button>
+            </div>
+            <img id="modalImage" src="" alt="">
+            <pre id="modalText"></pre>
+            <div class="modal-bottom">
+                <a id="modalDownload" href="" download>download</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.file-link').forEach(link => {
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                openModal(link.dataset.url, link.dataset.name);
+            });
+        });
+
+        function openModal(url, name) {
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalDownload').href = url;
+            document.getElementById('fileModal').style.display = 'flex';
+
+            const image = document.getElementById('modalImage');
+            const text = document.getElementById('modalText');
+            const extension = name.split('.').pop().toLowerCase();
+            const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'];
+            const textExtensions = ['txt', 'bat', 'sh', 'json', 'html', 'css', 'js', 'py', 'md', 'xml', 'csv'];
+
+            image.style.display = 'none';
+            text.style.display = 'none';
+            image.src = '';
+            text.textContent = '';
+
+            if (imageExtensions.includes(extension)) {
+                image.src = url;
+                image.alt = name;
+                image.style.display = 'block';
+            } else if (textExtensions.includes(extension)) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(content => {
+                        text.textContent = content;
+                        text.style.display = 'block';
+                    })
+                    .catch(() => {
+                        text.textContent = 'Impossible de lire ce fichier.';
+                        text.style.display = 'block';
+                    });
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('fileModal').style.display = 'none';
+            document.getElementById('modalImage').src = '';
+            document.getElementById('modalText').textContent = '';
+        }
+    </script>
+
 </body>
 </html>

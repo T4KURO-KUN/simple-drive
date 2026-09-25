@@ -1,9 +1,170 @@
 body {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 20px;
+  font-family: monospace;
+    background-color: rgb(35, 34, 48);
+  color: #000000;
+}
+
+
+.header-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+.left-info {
+  font-size: 0.9rem;
+  justify-self: start;
+}
+
+.left-info form {
+  margin: 0;
+}
+
+#importFile {
+  display: none;
+}
+
+.import-link {
+  color: #000000;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.center-title h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.right-logout a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.right-logout {
+  justify-self: end;
+}
+
+.box {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+  border: 2px solid #000000;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-area {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  border-bottom: 2px solid #000000;
+  padding: 12px;
+}
+
+li a {
+  color: #000000;
+  text-decoration: none;
+  display: block;
+}
+
+/* Style de la modale */
+.modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
-  place-items: center;
-  font-family: monospace;
-  background-color: rgb(35, 34, 48);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-box {
+  background: #ffffff;
+  border: 2px solid #000000;
+  max-width: min(85vw, 800px);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  border-bottom: 2px solid #000000;
+}
+
+.modal-box img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(85vh - 110px);
+  object-fit: contain;
+}
+
+#modalText {
+  display: none;
+  max-width: 80vw;
+  max-height: calc(85vh - 110px);
+  margin: 0;
+  padding: 15px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  text-align: left;
+  color: #000000;
+  background: #ffffff;
+}
+
+.modal-bottom {
+  padding: 10px 15px;
+  border-top: 2px solid #000000;
+  text-align: right;
+}
+
+.modal-bottom a {
+  color: #000000;
+  border: 2px solid #000000;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.modal-bottom a:hover {
+  background: #000000;
   color: #ffffff;
+}
+
+.modal-close {
+    background: transparent;
+    color: #000000;
+    border: 2px solid #000000;
+    padding: 2px 8px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: #000000;
+    color: #ffffff;
 }
